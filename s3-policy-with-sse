@@ -1,0 +1,92 @@
+{
+    "Version": "2012-10-17",
+    "Id": "PutObjPolicy",
+    "Statement": [
+        {
+            "Sid": "DenyUnEncryptedObjectUploads",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": "s3:PutObject",
+            "NotResource": "arn:aws:s3:::anirelease-access/logs/*",
+            "Condition": {
+                "StringNotEquals": {
+                    "s3:x-amz-server-side-encryption": "AES256"
+                }
+            }
+        },
+        {
+            "Sid": "",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": "s3:*",
+            "Resource": "arn:aws:s3:::anirelease-access/*",
+            "Condition": {
+                "Bool": {
+                    "aws:SecureTransport": "false"
+                }
+            }
+        },
+        {
+            "Sid": "Stmt1445456939961",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::946038712564:user/anirelease-access-oasis"
+            },
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::anirelease-access/anirelease-access-oasis/*"
+        },
+        {
+            "Sid": "Stmt1445456939961",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::946038712564:user/anirelease-access-patientview"
+            },
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::anirelease-access/anirelease-access-patientview/*"
+        },
+        {
+            "Sid": "Stmt1445456939961",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::946038712564:user/anirelease-access-ppsgrouper"
+            },
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::anirelease-access/anirelease-access-ppsgrouper/*"
+        },
+        {
+            "Sid": "Stmt1436550646363",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": [
+                    "arn:aws:iam::946038712564:user/anirelease-access-patientview",
+                    "arn:aws:iam::946038712564:user/anirelease-access-oasis",
+                    "arn:aws:iam::946038712564:user/anirelease-access-ppsgrouper"
+                ]
+            },
+            "Action": "s3:ListBucket",
+            "Resource": "arn:aws:s3:::anirelease-access"
+        },
+        {
+            "Sid": "",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::946038712564:user/anirelease-access"
+            },
+            "Action": [
+                "s3:DeleteObject",
+                "s3:GetObject",
+                "s3:PutObject"
+            ],
+            "Resource": "arn:aws:s3:::anirelease-access/*"
+        },
+        {
+            "Sid": "",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::946038712564:user/anirelease-access"
+            },
+            "Action": "s3:ListBucket",
+            "Resource": "arn:aws:s3:::anirelease-access"
+        }
+    ]
+}
